@@ -106,6 +106,7 @@ while i<opslen :
         if kx==kk:
             sheetops.cell(i,colx+1).value=sheetwax.cell_value(rowx=(ii-1),colx=3)
             sheetops.cell(i,colx+2).value=sheetwax.cell_value(rowx=(ii-1),colx=12)
+            sheetops.cell(i,colx+3).value=sheetwax.cell_value(rowx=(ii-1),colx=11)
         ii+=1
     i+=1       
 
@@ -132,5 +133,5 @@ while i<xlen+1:
     i+=1
     i
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\final.xlsx')
-i
-print('finsh')
+print(i,'finsh')
+exit()
