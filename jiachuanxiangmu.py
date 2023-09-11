@@ -17,10 +17,9 @@ while a1<b1:
         c1.append(a1)
     a1+=1
 c1
-workbook=xlsxwriter.Workbook('C:\\Users\\Administrator\\Desktop\\tablet\\waxblock.xlsx') #创建新的表格保存细胞蜡块信息
+workbook=xlsxwriter.Workbook('C:\\Users\\Administrator\\Desktop\\tablet\\waxblock.xlsx')
 worksheet=workbook.add_worksheet('Sheet1')
 #添加蜡块信息到新的表中#
-
 x0=sheet1.row_values(0)
 i0=0
 while i0<len(x0):
@@ -38,11 +37,8 @@ while i<c1len:
         ii+=1
     i+=1
 workbook.close()
-
-
 cx=list(range(1,b1-1))
 c2=[i for i in cx if i not in c1]
-
 workbook=xlsxwriter.Workbook('C:\\Users\\Administrator\\Desktop\\tablet\\ops.xlsx') #创建新的表格保存细胞蜡块信息
 worksheet=workbook.add_worksheet('Sheet1')                                              #添加手术信息到新的表中
 x0=sheet1.row_values(0)
@@ -73,7 +69,7 @@ opslen
 waxlen
 colx=sheetops.max_column
 colx
-#对比细胞蜡块记录,添加细胞蜡块信息#
+#对比蜡块,添加细胞涂片信息#
 while i<opslen :
     kk=sheetops.cell(i,8).value
     ii=1
@@ -84,7 +80,6 @@ while i<opslen :
             sheetops.cell(i,colx+2).value=sheetwax.cell(ii,23).value        
         ii+=1
     i+=1       
-
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
 workbookwax=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\细胞学2018-2023.xls')
@@ -100,29 +95,31 @@ colx
 #对比细胞蜡块记录,添加细胞蜡块信息#
 while i<opslen :
     kk=sheetops.cell(i,8).value
+    nn=sheetops.cell(i,14).value
     ii=1
     while ii<waxlen:
         kx=sheetwax.cell_value(rowx=(ii-1),colx=7)
-        if kx==kk:
+        nx=sheetwax.cell_value(rowx=(ii-1),colx=13)
+        if kx==kk and nx==nn:
             sheetops.cell(i,colx+1).value=sheetwax.cell_value(rowx=(ii-1),colx=3)
             sheetops.cell(i,colx+2).value=sheetwax.cell_value(rowx=(ii-1),colx=12)
             sheetops.cell(i,colx+3).value=sheetwax.cell_value(rowx=(ii-1),colx=11)
         ii+=1
     i+=1       
-
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
-#删除不匹配的文件
+#删除不匹配的文件#
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
 sheetops=workbookops.active
 opslen=sheetops.max_row+1
 opscol=sheetops.max_column
 opslen
 opscol
-i=1
+i=2
 x=[]
 while i<opslen:
     kk=sheetops.cell(i,(opscol-2)).value
-    if kk==None:
+    ss=sheetops.cell(i,32).value
+    if kk==None or ss==1:
         x.append(i)
     i+=1 
 x
