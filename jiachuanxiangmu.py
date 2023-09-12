@@ -57,6 +57,7 @@ while i<c2len:
         worksheet.write(i,ii,xx[ii])
         ii+=1
     i+=1
+    i
 workbook.close()
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops.xlsx')
 workbookwax=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\waxblock.xlsx')
