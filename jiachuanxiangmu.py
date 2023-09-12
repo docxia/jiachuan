@@ -83,6 +83,7 @@ while i<opslen :
         ii+=1
     i+=1       
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
+workbookops.close()
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
 workbookwax=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\细胞学2018-2023.xls')
 sheetops=workbookops.active
@@ -117,6 +118,8 @@ sheetops.cell(1,colx).value='蜡块诊断部位'
 sheetops.cell(1,colx-1).value='蜡块诊断结果'
 sheetops.cell(1,colx-2).value='姓名（蜡块）'
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
+workbookops.close() #关闭openpyxl减少内存压力
+workbookwax.release_resources()  #xlrd关闭释放内存（release）
 #删除不匹配的文件#
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
 sheetops=workbookops.active
@@ -140,8 +143,61 @@ while i<xlen+1:
     i+=1
     i
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\final.xlsx')
-#加入其余的次数
-
-
-
-exit()
+workbookops.close()
+#添加同一个人的其他数据#
+workf=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\final.xlsx') 
+workwax=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\waxblock.xlsx') 
+sheetf=workf.active
+sheetwax=workwax.active
+i=2
+rowsf=sheetf.max_row+1
+rowswax=sheetwax.max_row+1
+dd=[]
+ff=[]
+zz=[]
+while i<rowsf:
+    number=sheetf.cell(i,8).value
+    ii=1
+    c=0
+    while ii<rowswax:
+        if sheetwax.cell(ii,8).value==sheetf.cell(i,8).value:
+            c+=1
+            zz.append(ii)
+        ii+=1
+    if c>1:
+        dd.append(i)
+        ff.append(c)
+    i+=1
+    i
+maxff=max(ff)
+max_col_old=sheetf.max_column
+i=1
+while i<maxff:
+    sheetf.cell(1,max_col_old+i).value='蜡块诊断结果'
+    sheetf.cell(1,max_col_old+1+i).value='细胞诊断结果'
+    sheetf.cell(1,max_col_old+2+i).value='细胞送检时间'
+    i+=1
+workbookcell=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\细胞学2018-2023.xls')  
+sheetcell=workbookcell.sheet_by_index(0)    
+lenx=len(dd)
+k=0
+bx=0
+celen=sheetcell.nrows
+while k<lenx:
+    i=1
+    while i<ff[k]:
+        sheetf.cell(dd[k],max_col_old+i).value=sheetwax.cell(zz[bx],23).value
+        ii=0
+        while ii<celen:
+            if sheetwax.cell(zz[bx-1+i],8).value==sheetcell.cell_value(ii,7) and sheetwax.cell(zz[bx-1+i],14).value==sheetcell.cell_value(ii,8):
+                sheetf.cell(dd[k],max_col_old+1+i).value=sheetcell.cell_value(ii,12)
+                sheetf.cell(dd[k],max_col_old+2+i).value=sheetcell.cell_value(ii,11)
+            ii+=1
+        i+=1
+    bx+=ff[k]
+    k+=1
+    k
+workf.save(r'C:\Users\Administrator\Desktop\tablet\finalx.xlsx')
+workf.close()
+workwax.close()
+workbookwax.release_resources()
