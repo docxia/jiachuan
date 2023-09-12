@@ -39,6 +39,7 @@ while i<c1len:
 workbook.close()
 cx=list(range(1,b1-1))
 c2=[i for i in cx if i not in c1]
+c2
 workbook=xlsxwriter.Workbook('C:\\Users\\Administrator\\Desktop\\tablet\\ops.xlsx') #创建新的表格保存细胞蜡块信息
 worksheet=workbook.add_worksheet('Sheet1')                                              #添加手术信息到新的表中
 x0=sheet1.row_values(0)
@@ -46,7 +47,6 @@ i0=0
 while i0<len(x0):
     worksheet.write(0,i0,x0[i0])
     i0+=1
-
 c2len=len(c2)
 i=1
 while i<c2len:
@@ -57,7 +57,6 @@ while i<c2len:
         worksheet.write(i,ii,xx[ii])
         ii+=1
     i+=1
-    i
 workbook.close()
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops.xlsx')
 workbookwax=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\waxblock.xlsx')
@@ -84,6 +83,7 @@ while i<opslen :
     i+=1       
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
 workbookops.close()
+workbookwax.close()
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
 workbookwax=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\细胞学2018-2023.xls')
 sheetops=workbookops.active
