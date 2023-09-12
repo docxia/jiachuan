@@ -1,7 +1,7 @@
 import xlrd
 import xlsxwriter
 import openpyxl
-from openpyxl  import load_workbook
+from openpyxl import load_workbook
 workbook1=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\甲状腺组织学2018-2023.xls')  #打开表格1(手术及蜡块混合表)
 workbook2=xlrd.open_workbook(r'C:\Users\Administrator\Desktop\tablet\细胞学2018-2023.xls')  #打开表格2（细胞液基涂片表）
 sheet1=workbook1.sheet_by_index(0)    #读取表格1的第一个表
@@ -78,7 +78,8 @@ while i<opslen :
         kx=sheetwax.cell(ii,8).value
         if kx==kk:
             sheetops.cell(i,colx+1).value=sheetwax.cell(ii,4).value
-            sheetops.cell(i,colx+2).value=sheetwax.cell(ii,23).value        
+            sheetops.cell(i,colx+2).value=sheetwax.cell(ii,23).value
+            sheetops.cell(i,colx+3).value=sheetwax.cell(ii,14).value
         ii+=1
     i+=1       
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops1.xlsx')
@@ -96,17 +97,25 @@ colx
 #对比细胞蜡块记录,添加细胞蜡块信息#
 while i<opslen :
     kk=sheetops.cell(i,8).value
-    nn=sheetops.cell(i,14).value
+    nn=sheetops.cell(i,colx).value
     ii=1
     while ii<waxlen:
         kx=sheetwax.cell_value(rowx=(ii-1),colx=7)
-        nx=sheetwax.cell_value(rowx=(ii-1),colx=13)
+        nx=sheetwax.cell_value(rowx=(ii-1),colx=8)
         if kx==kk and nx==nn:
             sheetops.cell(i,colx+1).value=sheetwax.cell_value(rowx=(ii-1),colx=3)
             sheetops.cell(i,colx+2).value=sheetwax.cell_value(rowx=(ii-1),colx=12)
-            sheetops.cell(i,colx+3).value=sheetwax.cell_value(rowx=(ii-1),colx=11)
+            sheetops.cell(i,colx+3).value=sheetwax.cell_value(rowx=(ii-1),colx=8)
+            sheetops.cell(i,colx+4).value=sheetwax.cell_value(rowx=(ii-1),colx=11)
         ii+=1
-    i+=1       
+    i+=1
+sheetops.cell(1,colx+4).value='细胞送检时间'
+sheetops.cell(1,colx+3).value='细胞送检部位'
+sheetops.cell(1,colx+2).value='细胞涂片诊断'
+sheetops.cell(1,colx+1).value='姓名（细胞）'
+sheetops.cell(1,colx).value='蜡块诊断部位'
+sheetops.cell(1,colx-1).value='蜡块诊断结果'
+sheetops.cell(1,colx-2).value='姓名（蜡块）'
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
 #删除不匹配的文件#
 workbookops=openpyxl.load_workbook(r'C:\Users\Administrator\Desktop\tablet\ops2.xlsx')
@@ -131,5 +140,8 @@ while i<xlen+1:
     i+=1
     i
 workbookops.save(r'C:\Users\Administrator\Desktop\tablet\final.xlsx')
-print(i,'finsh')
+
+
+
+
 exit()
